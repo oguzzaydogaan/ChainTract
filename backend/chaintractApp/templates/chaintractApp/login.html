@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+  <h2>Login with Metamask</h2>
+
+  {% if user.is_authenticated %}
+    <p>You are already logged in as {{ user.username }}.</p>
+    <p>Wallet: {{ user.profile.eth_address }}</p>
+    <form action="{% url 'chaintractApp:logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+    <p><a href="{% url 'chaintractApp:document_list_owned' %}">Go to My Documents</a></p>
+  {% else %}
+    <button id="loginButton">Login with Metamask</button>
+    <p id="status"></p>
+  {% endif %}
+
+  <script>
+    const loginButton = document.getElementById('loginButton');
+    const statusElement = document.getElementById('status');
+
+    loginButton.addEventListener('click', async () => {
+      if (typeof window.ethereum === 'undefined') {
+        statusElement.textContent = 'Metamask is not installed!';
+        return;
+      }
+
+      statusElement.textContent = 'Connecting to Metamask...';
+
+      try {
+        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        const address = accounts[0];
+        statusElement.textContent = `Connected account: ${address}. Getting login message...`;
+
+        const messageResponse = await fetch("{% url 'chaintractApp:get_message' %}", {
+          method: 'POST', // can be GET
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!messageResponse.ok) {
+            throw new Error(`Failed to get login message: ${messageResponse.statusText}`);
+        }
+        const { message } = await messageResponse.json();
+
+        statusElement.textContent = 'Please sign the message in Metamask...';
+
+        const signature = await ethereum.request({
+          method: 'personal_sign',
+          params: [message, address],
+        });
+        statusElement.textContent = 'Verifying signature...';
+
+        const loginResponse = await fetch("{% url 'chaintractApp:login_signature' %}", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', 
+          },
+          body: new URLSearchParams({
+              'address': address,
+              'signature': signature,
+              // todo
+              // 'message': message
+          })
+        });
+
+        const result = await loginResponse.json();
+
+        if (loginResponse.ok && result.success) {
+          statusElement.textContent = `Login successful! Welcome ${result.username}. Redirecting...`;
+          window.location.href = "{% url 'chaintractApp:document_list_owned' %}";
+        } else {
+          throw new Error(result.error || 'Login failed.');
+        }
+
+      } catch (error) {
+        console.error('Login error:', error);
+        statusElement.textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
+{% endblock %} 

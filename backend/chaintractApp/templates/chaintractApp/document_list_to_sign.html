@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Documents to Sign{% endblock %}
+
+{% block content %}
+  <h2>Documents Assigned to You for Signing (Pending)</h2>
+
+  {% if documents %}
+    <ul>
+      {% for doc in documents %}
+        <li>
+          {{ doc.title }} - From: {{ doc.owner.username }} - Uploaded: {{ doc.uploaded_at|date:"Y-m-d H:i" }}
+          {# todo: signin view #}
+          {# (<a href="#">View & Sign</a>) #}
+          (<a href="{% url 'chaintractApp:sign_document' doc.id %}">View & Sign</a>)
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You have no pending documents to sign.</p>
+  {% endif %}
+
+  <hr>
+  <p><a href="{% url 'chaintractApp:document_list_owned' %}">View My Uploaded Documents</a></p>
+
+{% endblock %} 

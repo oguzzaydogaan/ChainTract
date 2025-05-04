@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Document: {{ document.title }}{% endblock %}
+
+{% block content %}
+  <h2>Sign Document</h2>
+
+  {% if error %}
+    <p style="color: red;">Error: {{ error }}</p>
+  {% endif %}
+
+  <p><strong>Title:</strong> {{ document.title }}</p>
+  <p><strong>Uploaded By:</strong> {{ document.owner.username }}</p>
+  <p><strong>File Hash (SHA-256):</strong> {{ file_hash }}</p>
+  <p><strong>Status:</strong> {{ document.get_status_display }}</p>
+  <p><strong>Uploaded At:</strong> {{ document.uploaded_at|date:"Y-m-d H:i" }}</p>
+
+  <hr>
+
+  <p>WARNING!</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Sign Document</button>
+  </form>
+
+  <p><a href="{% url 'chaintractApp:document_list_to_sign' %}">Back to Documents to Sign</a></p>
+
+{% endblock %} 

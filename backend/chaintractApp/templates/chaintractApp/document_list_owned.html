@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}My Uploaded Documents{% endblock %}
+
+{% block content %}
+  <h2>My Uploaded Documents</h2>
+
+  <p><a href="{% url 'chaintractApp:upload_document' %}">Upload New Document</a></p>
+
+  {% if documents %}
+    <ul>
+      {% for doc in documents %}
+        <li>
+          {{ doc.title }} - Signee: {{ doc.signee.username }} - Status: {{ doc.get_status_display }} - Uploaded: {{ doc.uploaded_at|date:"Y-m-d H:i" }}
+          {# todo: document detail view  #}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You haven't uploaded any documents yet.</p>
+  {% endif %}
+
+  <hr>
+  <p><a href="{% url 'chaintractApp:document_list_to_sign' %}">View Documents to Sign</a></p>
+
+{% endblock %} 
