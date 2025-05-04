@@ -6,11 +6,10 @@
 - [x] document upload
 - [x] sign docs
 - [x] aws-s3 integration
-- [-] contract deployment
-- [-] local tests
+- [ ] contract deployment
+- [ ] local tests
     - [x] database integration tests
     - [x] metamask login tests
-    - [-] contract deployment test
-- [-] aws-ec2 deployment
-- [-] prod tests
-
+    - [ ] contract deployment test
+- [x] aws-ec2 deployment
+- [x] prod tests
