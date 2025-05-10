@@ -8,6 +8,7 @@
 - [x] verify docs
 - [x] document preview
 - [x] list all documents
+- [ ] homepage 
 - [ ] redirections
 - [x] aws-s3 integration
 - [x] contract deployment
