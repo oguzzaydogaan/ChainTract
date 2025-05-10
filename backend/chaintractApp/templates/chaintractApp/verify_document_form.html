@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Verify Document{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Verify Document</h2>
+    <p class="mb-4">Upload a document to check if it matches a document registered in the system.</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.file.label_tag }}
+            {{ form.file }}
+            {% if form.file.errors %}
+                <div class="alert alert-danger mt-1">
+                    {{ form.file.errors }}
+                </div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Verify Document</button>
+    </form>
+</div>
+{% endblock %}

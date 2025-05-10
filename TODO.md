@@ -5,11 +5,18 @@
 - [x] login with metamask
 - [x] document upload
 - [x] sign docs
+- [x] verify docs
+- [x] document preview
+- [x] list all documents
+- [ ] redirections
 - [x] aws-s3 integration
-- [ ] contract deployment
-- [ ] local tests
+- [x] contract deployment
+- [x] local tests
     - [x] database integration tests
     - [x] metamask login tests
-    - [ ] contract deployment test
-- [x] aws-ec2 deployment
-- [x] prod tests
+    - [x] contract deployment test
+- [ ] aws-ec2 deployment
+- [ ] prod tests
+- [ ] monolithic -> rest api + frontend
+- [ ] ui improvements 
+- [ ] ux improvements

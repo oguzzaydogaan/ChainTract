@@ -13,11 +13,25 @@
   <p><strong>Uploaded By:</strong> {{ document.owner.username }}</p>
   <p><strong>File Hash (SHA-256):</strong> {{ file_hash }}</p>
   <p><strong>Status:</strong> {{ document.get_status_display }}</p>
+  <p><strong>On-Chain Status:</strong> {{ on_chain_status }}</p>
   <p><strong>Uploaded At:</strong> {{ document.uploaded_at|date:"Y-m-d H:i" }}</p>
+
+  {% if document.file and document.file.name %}
+    <h3>Document Preview:</h3>
+    <div>
+        <iframe src="{% url 'chaintractApp:view_document_file' document.id %}" width="100%" height="500px" style="border: 1px solid #ccc;">
+            Your browser does not support iframes. You can 
+            <a href="{% url 'chaintractApp:view_document_file' document.id %}" target="_blank">download the document here</a>.
+        </iframe>
+    </div>
+    <p><a href="{% url 'chaintractApp:view_document_file' document.id %}" target="_blank">Open document in new tab</a></p>
+  {% else %}
+    <p><em>Document preview is not available.</em></p>
+  {% endif %}
 
   <hr>
 
-  <p>WARNING!</p>
+  <p>WARNING! By clicking "Sign Document", you are cryptographically agreeing to the terms in the document above. This action will be recorded on the blockchain.</p>
 
   <form method="post">
     {% csrf_token %}
@@ -26,4 +40,4 @@
 
   <p><a href="{% url 'chaintractApp:document_list_to_sign' %}">Back to Documents to Sign</a></p>
 
-{% endblock %} 
+{% endblock %}

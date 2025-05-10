@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Verification Result{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Document Verification Result</h2>
+    <p><strong>Uploaded File Hash:</strong> {{ file_hash }}</p>
+
+    {% if matching_document %}
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Document Found!</h4>
+            <p>This document matches a document registered in the system:</p>
+            <hr>
+            <p class="mb-0"><strong>Title:</strong> {{ matching_document.title }}</p>
+            <p class="mb-0"><strong>Owner:</strong> {{ matching_document.owner.username }}</p>
+            <p class="mb-0"><strong>Signee Address:</strong> {{ matching_document.signee_address }}</p>
+            <p class="mb-0"><strong>Status:</strong> {{ matching_document.get_status_display }}</p>
+            <p class="mb-0"><strong>Uploaded At:</strong> {{ matching_document.uploaded_at|date:"Y-m-d H:i:s" }}</p>
+            {% if matching_document.on_chain_registration_tx %}
+                <p class="mb-0"><strong>On-chain Registration TX:</strong> {{ matching_document.on_chain_registration_tx }}</p>
+            {% endif %}
+            <a href="{% url 'chaintractApp:view_document_file' matching_document.id %}" class="btn btn-info mt-2">View Original Document</a>
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Document Not Found</h4>
+            <p>The uploaded document does not match any document currently registered in the system.</p>
+        </div>
+    {% endif %}
+
+    <a href="{% url 'chaintractApp:verify_document' %}" class="btn btn-secondary mt-3">Verify Another Document</a>
+    <a href="{% url 'chaintractApp:index' %}" class="btn btn-outline-secondary mt-3">Back to Home</a>
+</div>
+{% endblock %}

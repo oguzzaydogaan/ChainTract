@@ -23,11 +23,20 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
 AWS_S3_FILE_OVERWRITE = False  
 AWS_DEFAULT_ACL = None
+#incase use of aws-mb
+APPLY_POA_MIDDLEWARE = config('APPLY_POA_MIDDLEWARE', default=False, cast=bool)
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-LOGIN_URL = '/app/login/'
+# Blockchain settings
+BLOCKCHAIN_URL = config('BLOCKCHAIN_URL')
+BACKEND_WALLET_PRIVATE_KEY = config('BACKEND_WALLET_PRIVATE_KEY')
+CONTRACT_ADDRESS = config('CONTRACT_ADDRESS', default=None)
+CONTRACT_ABI_PATH = BASE_DIR / config('CONTRACT_ABI_PATH', default='abi/ChainTractABI.json')
+
+
+
+LOGIN_URL = '/login/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
