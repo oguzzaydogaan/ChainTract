@@ -16,8 +16,8 @@
     - [x] database integration tests
     - [x] metamask login tests
     - [x] contract deployment test
-- [ ] aws-ec2 deployment
-- [ ] prod tests
+- [x] aws-ec2 deployment
+- [x] prod tests
 - [ ] monolithic -> rest api + frontend
 - [ ] ui improvements 
 - [ ] ux improvements
