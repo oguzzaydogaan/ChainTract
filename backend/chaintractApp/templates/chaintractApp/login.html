@@ -16,6 +16,12 @@
   {% else %}
     <button id="loginButton">Login with Metamask</button>
     <p id="status"></p>
+    <hr>
+    <h4>Continue without login:</h4>
+    <ul>
+        <li><a href="{% url 'chaintractApp:verify_document' %}">Verify a Document</a></li>
+        <li><a href="{% url 'chaintractApp:signup' %}">Learn about creating an account (Sign Up)</a></li>
+    </ul>
   {% endif %}
 
   <script>
@@ -72,7 +78,12 @@
 
         if (loginResponse.ok && result.success) {
           statusElement.textContent = `Login successful! Welcome ${result.username}. Redirecting...`;
-          window.location.href = "{% url 'chaintractApp:document_list_owned' %}";
+          const nextUrl = new URLSearchParams(window.location.search).get('next');
+          if (nextUrl) {
+            window.location.href = nextUrl;
+          } else {
+            window.location.href = "{% url 'chaintractApp:home' %}"; // Default redirect to home
+          }
         } else {
           throw new Error(result.error || 'Login failed.');
         }
@@ -83,4 +94,4 @@
       }
     });
   </script>
-{% endblock %} 
+{% endblock %}

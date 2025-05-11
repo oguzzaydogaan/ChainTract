@@ -8,6 +8,18 @@
 <body>
     <header>
         <h1>Chaintract</h1>
+        <nav>
+            <a href="{% url 'chaintractApp:home' %}">Home</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'chaintractApp:upload_document' %}">Upload Document</a>
+                <a href="{% url 'chaintractApp:document_list_all' %}">My Documents</a>
+                <a href="{% url 'chaintractApp:logout' %}">Logout ({{ user.username }})</a>
+            {% else %}
+                <a href="{% url 'chaintractApp:login' %}">Login</a>
+                <a href="{% url 'chaintractApp:signup' %}">Sign Up</a>
+            {% endif %}
+            <a href="{% url 'chaintractApp:verify_document' %}">Verify Document</a>
+        </nav>
     </header>
 
     <main>

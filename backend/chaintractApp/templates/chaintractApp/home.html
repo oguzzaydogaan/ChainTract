@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Chaintract{% endblock %}
+
+{% block content %}
+  <h2>Welcome to Chaintract, {{ user.username }}!</h2>
+
+  {% if user.is_authenticated %}
+    <p>Here are your available actions:</p>
+    <ul>
+      <li><a href="{% url 'chaintractApp:upload_document' %}">Upload New Document</a></li>
+      <li><a href="{% url 'chaintractApp:document_list_owned' %}">My Owned Documents</a></li>
+      <li><a href="{% url 'chaintractApp:document_list_to_sign' %}">Documents to Sign</a></li>
+      <li><a href="{% url 'chaintractApp:document_list_all' %}">All My Documents</a></li>
+      <li><a href="{% url 'chaintractApp:verify_document' %}">Verify a Document</a></li>
+    </ul>
+    <form action="{% url 'chaintractApp:logout' %}" method="post" style="margin-top: 20px;">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+  {% else %}
+    <p>Please <a href="{% url 'chaintractApp:login' %}">login</a> to manage your documents.</p>
+    <p><a href="{% url 'chaintractApp:verify_document' %}">Verify a Document without logging in</a></p>
+  {% endif %}
+{% endblock %}

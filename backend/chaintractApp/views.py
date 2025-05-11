@@ -22,8 +22,11 @@ s3_client = boto3.client(
     region_name=settings.AWS_REGION
 )
 
+def home(request):
+    return render(request, 'chaintractApp/home.html')
+
 def index(request):
-    return HttpResponse("index")
+    return redirect('chaintractApp:home')
 
 @login_required
 def upload_document(request):
@@ -123,8 +126,7 @@ def login_with_signature(request):
                     profile = UserProfile.objects.select_related('user').get(eth_address__iexact=address)
                     user = profile.user
                 except UserProfile.DoesNotExist:
-                    # fixusername todo 
-                    username = f'user_{address[:6]}_{address[-4:]}' 
+                    username = address.lower()
                     counter = 1
                     base_username = username
                     while User.objects.filter(username=username).exists():
@@ -265,7 +267,6 @@ def sign_document(request, document_id):
     }
     return render(request, 'chaintractApp/sign_document.html', context)
 
-@login_required
 def verify_document(request):
     if request.method == 'POST':
         form = DocumentUploadForm(request.POST, request.FILES, use_title_and_signee=False)
@@ -285,3 +286,6 @@ def verify_document(request):
     else:
         form = DocumentUploadForm(use_title_and_signee=False)
     return render(request, 'chaintractApp/verify_document_form.html', {'form': form})
+
+def signup_view(request):
+    return render(request, 'chaintractApp/signup.html')

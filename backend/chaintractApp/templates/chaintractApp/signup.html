@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - Chaintract{% endblock %}
+
+{% block content %}
+  <h2>Sign Up / Login with Metamask</h2>
+  <p>
+    ChainTract uses Metamask for user authentication. There is no separate sign-up process.
+  </p>
+  <p>
+    If you have Metamask installed, you can log in by clicking the button below.
+    If you don't have an account with us yet, one will be created for you automatically
+    when you log in with your Metamask wallet for the first time.
+  </p>
+  <p>
+    <a href="{% url 'chaintractApp:login' %}">Proceed to Login with Metamask</a>
+  </p>
+  <hr>
+  <p>
+    <strong>Why Metamask?</strong><br>
+    Using Metamask allows for secure authentication and interaction with blockchain features of ChainTract,
+    such as registering documents and recording signatures on-chain.
+  </p>
+{% endblock %}

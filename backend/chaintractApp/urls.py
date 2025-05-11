@@ -6,6 +6,8 @@ app_name = 'chaintractApp'
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("home/", views.home, name="home"),
+    path("signup/", views.signup_view, name="signup"),
     path("upload/", views.upload_document, name="upload_document"),
     path("documents/owned/", views.document_list_owned, name="document_list_owned"),
     path("documents/to_sign/", views.document_list_to_sign, name="document_list_to_sign"),
