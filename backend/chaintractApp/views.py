@@ -276,11 +276,26 @@ def verify_document(request):
             hasher = hashlib.sha256()
             hasher.update(file_content)
             file_hash_hex = hasher.hexdigest()
+            file_hash_bytes = bytes.fromhex(file_hash_hex)
+
+            from .utils import get_contract_instance
+            contract = get_contract_instance()
+            document_owner = None
+            try:
+                if contract:
+                    document_owner = contract.functions.getDocumentOwner(file_hash_bytes).call()
+            except Exception as e:
+                print(f"Blockchain verification error: {e}")
+                document_owner = None
+
+            is_registered_on_chain = document_owner and document_owner != '0x0000000000000000000000000000000000000000'
 
             matching_document = Document.objects.filter(file_hash=file_hash_hex).first()
 
             return render(request, 'chaintractApp/verify_document_result.html', {
                 'file_hash': file_hash_hex,
+                'is_registered_on_chain': is_registered_on_chain,
+                'document_owner': document_owner,
                 'matching_document': matching_document
             })
     else:
